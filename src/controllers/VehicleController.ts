@@ -1,35 +1,41 @@
 import { Request, Response } from "express";
 import { VehicleService } from "../services/VehicleService";
+import { DescuentoService } from "../services/DescuentoService";
 
 export class VehicleController {
-  constructor(private vehicleService: VehicleService) {}
+  constructor(private vehicleService: DescuentoService) {}
 
-  async create(req: Request, res: Response): Promise<Response> {
+  create = async (req: Request, res: Response): Promise<Response> => {
     const vehicle = await this.vehicleService.create(req.body);
     return res.json(vehicle);
-  }
+  };
 
-  async findById(req: Request, res: Response): Promise<Response> {
+  findById = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     const vehicle = await this.vehicleService.findById(Number(id));
     return res.json(vehicle);
-  }
+  };
 
-  async findAll(req: Request, res: Response): Promise<Response> {
+  findAll = async (req: Request, res: Response): Promise<Response> => {
     const vehicles = await this.vehicleService.findAll();
     return res.json(vehicles);
-  }
+  };
 
-  async update(req: Request, res: Response): Promise<Response> {
+  update = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     const vehicle = await this.vehicleService.update(Number(id), req.body);
     return res.json(vehicle);
-  }
+  };
 
-  async delete(req: Request, res: Response): Promise<Response> {
+  delete = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     await this.vehicleService.delete(Number(id));
     return res.json({ message: "Vehicle deleted" });
-  }
+  };
 
+  aplicarDescuento = async (req: Request, res: Response): Promise<Response> => {
+    const { id, descuento } = req.body;
+    const vehicle = await this.vehicleService.aplicarDescuento(Number(id), descuento);
+    return res.json(vehicle);
+  };
 }
